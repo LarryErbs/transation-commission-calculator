@@ -1,5 +1,5 @@
 import { IQueryHandler, QueryHandler } from '@nestjs/cqrs';
-import { TransactionRepository } from '../transaction.repository';
+import { TransactionRepository } from '../../infrastructure/repository/transaction.repository';
 import { FindTransactionsByClientIdQuery } from './find-transactions-by-client-id.query';
 
 @QueryHandler(FindTransactionsByClientIdQuery)

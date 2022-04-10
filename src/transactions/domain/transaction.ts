@@ -1,5 +1,5 @@
-import { DomainEntity } from 'src/database/domain-entity.base';
-import { TransactionEntity } from './entities/transaction.entity';
+import { DomainEntity } from 'src/common/domain-entity.base';
+import { TransactionEntity } from '../infrastructure/entities/transaction.entity';
 
 export interface TransactionProps {
   id?: number;

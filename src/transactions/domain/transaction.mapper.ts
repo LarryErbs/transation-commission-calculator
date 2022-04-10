@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
-import { OrmEntityProps, OrmMapper } from 'src/database/mapper.base';
-import { TransactionEntity } from '../entities/transaction.entity';
-import { Transaction, TransactionProps } from '../transaction';
+import { OrmEntityProps, OrmMapper } from 'src/common/mapper.base';
+import { TransactionEntity } from '../infrastructure/entities/transaction.entity';
+import { Transaction, TransactionProps } from './transaction';
 
 @Injectable()
 export class TransactionMap extends OrmMapper<Transaction, TransactionEntity> {

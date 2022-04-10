@@ -7,12 +7,12 @@ import {
   Param,
   Delete,
 } from '@nestjs/common';
-import { TransactionsService } from './transactions.service';
+import { TransactionsService } from '../domain/transactions.service';
 import { CreateTransactionDto } from './dto/create-transaction.dto';
 import { UpdateTransactionDto } from './dto/update-transaction.dto';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
-import { CreateTransactionCommand } from './commands/create-transaction.command';
-import { FindTransactionsByClientIdQuery } from './queries/find-transactions-by-client-id.query';
+import { CreateTransactionCommand } from '../application/command/create-transaction.command';
+import { FindTransactionsByClientIdQuery } from '../application/query/find-transactions-by-client-id.query';
 
 @Controller('transactions')
 export class TransactionsController {

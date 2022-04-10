@@ -1,16 +1,16 @@
 import { Module } from '@nestjs/common';
-import { TransactionsService } from './transactions.service';
-import { TransactionsController } from './transactions.controller';
+import { TransactionsService } from './domain/transactions.service';
+import { TransactionsController } from './interface/transactions.controller';
 import { CqrsModule } from '@nestjs/cqrs';
-import { CreateTransactionDto } from './dto/create-transaction.dto';
-import { CreateTransactionCommand } from './commands/create-transaction.command';
-import { CreateTransactionHandler } from './commands/create-transaction.handler';
-import { TransactionFactory } from './transaction.factory';
-import { TransactionRepository } from './transaction.repository';
+import { CreateTransactionDto } from './interface/dto/create-transaction.dto';
+import { CreateTransactionCommand } from './application/command/create-transaction.command';
+import { CreateTransactionHandler } from './application/command/create-transaction.handler';
+import { TransactionFactory } from './domain/transaction.factory';
+import { TransactionRepository } from './infrastructure/repository/transaction.repository';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { FindTransactionsByClientIdQuery } from './queries/find-transactions-by-client-id.query';
-import { FindTransactionsByClientIdHandler } from './queries/find-transactions-by-client-id.handler';
-import { TransactionMap } from './mappers/transaction-mapper';
+import { FindTransactionsByClientIdQuery } from './application/query/find-transactions-by-client-id.query';
+import { FindTransactionsByClientIdHandler } from './application/query/find-transactions-by-client-id.handler';
+import { TransactionMap } from './domain/transaction.mapper';
 
 @Module({
   imports: [CqrsModule, TypeOrmModule.forFeature([TransactionRepository])],

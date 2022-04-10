@@ -1,7 +1,7 @@
 import { EntityRepository, getRepository, Repository } from 'typeorm';
-import { TransactionEntity } from './entities/transaction.entity';
-import { TransactionMap } from './mappers/transaction-mapper';
-import { Transaction } from './transaction';
+import { TransactionEntity } from '../entities/transaction.entity';
+import { TransactionMap } from '../../domain/transaction.mapper';
+import { Transaction } from '../../domain/transaction';
 
 @EntityRepository(TransactionEntity)
 export class TransactionRepository extends Repository<TransactionEntity> {

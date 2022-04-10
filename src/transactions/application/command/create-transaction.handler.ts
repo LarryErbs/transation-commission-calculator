@@ -1,5 +1,5 @@
 import { CommandHandler, EventPublisher, ICommandHandler } from '@nestjs/cqrs';
-import { TransactionFactory } from '../transaction.factory';
+import { TransactionFactory } from '../../domain/transaction.factory';
 import { CreateTransactionCommand } from './create-transaction.command';
 
 @CommandHandler(CreateTransactionCommand)

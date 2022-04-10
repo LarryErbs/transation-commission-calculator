@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
-import { EntityFactory } from 'src/database/entity.factory';
+import { EntityFactory } from 'src/common/entity.factory';
 import { Transaction } from './transaction';
-import { TransactionRepository } from './transaction.repository';
+import { TransactionRepository } from '../infrastructure/repository/transaction.repository';
 
 @Injectable()
 export class TransactionFactory implements EntityFactory<Transaction> {

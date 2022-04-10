@@ -22,8 +22,6 @@ export abstract class OrmMapper<
 
   toOrmEntity(entity: Entity): OrmEntity {
     const props = this.toOrmProps(entity);
-    return new this.ormEntityConstructor({
-      ...props,
-    });
+    return new this.ormEntityConstructor(props);
   }
 }
