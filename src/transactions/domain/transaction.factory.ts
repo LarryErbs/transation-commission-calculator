@@ -12,10 +12,10 @@ export class TransactionFactory implements EntityFactory<Transaction> {
     amount: string,
     currency: string,
     clientId: number,
-  ): Promise<any> {
+  ): Promise<Transaction> {
     const transaction = new Transaction({
       date: date,
-      amount: amount,
+      amount: parseFloat(amount),
       currency: currency,
       clientId: clientId,
     });

@@ -30,6 +30,8 @@
     "@nestjs/platform-express": "^8.0.0",
     "@nestjs/typeorm": "^8.0.3",
     "@types/hapi__joi": "^17.1.8",
+    "lodash": "^4.17.21",
+    "moment": "^2.29.2",
     "pg": "^8.7.3",
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.2",

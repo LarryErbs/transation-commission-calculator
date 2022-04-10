@@ -14,6 +14,10 @@ export class CreateTransactionHandler
   async execute({
     createTransactionDto: { date, amount, currency, client_id },
   }: CreateTransactionCommand): Promise<void> {
-    this.transactionFactory.create(date, amount, currency, client_id);
+    const transaction = this.eventPublisher.mergeObjectContext(
+      await this.transactionFactory.create(date, amount, currency, client_id),
+    );
+    transaction.calculateCommission(date, amount, currency, client_id);
+    transaction.commit();
   }
 }

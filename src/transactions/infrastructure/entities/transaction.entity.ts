@@ -1,4 +1,5 @@
 import { TypeormEntityBase } from 'src/common/orm-entity.base';
+import { ColumnNumericTransformer } from 'src/database/transformer';
 import { Column, Entity } from 'typeorm';
 
 @Entity()
@@ -7,15 +8,17 @@ export class TransactionEntity extends TypeormEntityBase {
     super(props);
   }
 
-  @Column()
+  @Column({ type: 'date' })
   public date: string;
 
-  @Column()
-  public amount: string;
+  @Column('decimal', {
+    transformer: new ColumnNumericTransformer(),
+  })
+  public amount: number;
 
   @Column()
   public currency: string;
 
-  @Column()
+  @Column({ name: 'clientid' })
   public clientId: number;
 }

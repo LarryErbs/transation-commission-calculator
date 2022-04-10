@@ -13,6 +13,7 @@ import { UpdateTransactionDto } from './dto/update-transaction.dto';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
 import { CreateTransactionCommand } from '../application/command/create-transaction.command';
 import { FindTransactionsByClientIdQuery } from '../application/query/find-transactions-by-client-id.query';
+import { CalculateCommissionDto } from './dto/calculate-commission.dto';
 
 @Controller('transactions')
 export class TransactionsController {
@@ -27,6 +28,13 @@ export class TransactionsController {
     return this.commandBus.execute<CreateTransactionCommand, any>(
       new CreateTransactionCommand(createTransactionDto),
     );
+  }
+
+  @Post('calculate')
+  calculate(@Body() calculateCommissionDto: CalculateCommissionDto) {
+    // return this.eventBus.publish<CalculateCommissionDto, any>(
+    //   new CreateTransactionCommand(calculateCommissionDto),
+    // );
   }
 
   @Get()

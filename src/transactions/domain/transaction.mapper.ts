@@ -13,6 +13,7 @@ export class TransactionMap extends OrmMapper<Transaction, TransactionEntity> {
       clientId: ormEntity.clientId,
       currency: ormEntity.currency,
     };
+    console.log(props);
     return props;
   }
   protected toOrmProps(entity: Transaction): OrmEntityProps<TransactionEntity> {
@@ -24,7 +25,6 @@ export class TransactionMap extends OrmMapper<Transaction, TransactionEntity> {
       clientId: props.clientId,
       currency: props.currency,
     };
-
     return ormProps;
   }
 }
