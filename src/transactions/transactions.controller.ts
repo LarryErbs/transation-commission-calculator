@@ -10,19 +10,30 @@ import {
 import { TransactionsService } from './transactions.service';
 import { CreateTransactionDto } from './dto/create-transaction.dto';
 import { UpdateTransactionDto } from './dto/update-transaction.dto';
+import { CommandBus, QueryBus } from '@nestjs/cqrs';
+import { CreateTransactionCommand } from './commands/create-transaction.command';
+import { FindTransactionsByClientIdQuery } from './queries/find-transactions-by-client-id.query';
 
 @Controller('transactions')
 export class TransactionsController {
-  constructor(private readonly transactionsService: TransactionsService) {}
+  constructor(
+    private readonly commandBus: CommandBus,
+    private readonly queryBus: QueryBus,
+    private readonly transactionsService: TransactionsService,
+  ) {}
 
   @Post()
   create(@Body() createTransactionDto: CreateTransactionDto) {
-    return this.transactionsService.create(createTransactionDto);
+    return this.commandBus.execute<CreateTransactionCommand, any>(
+      new CreateTransactionCommand(createTransactionDto),
+    );
   }
 
   @Get()
   findAll() {
-    return this.transactionsService.findAll();
+    return this.queryBus.execute<any, any>(
+      new FindTransactionsByClientIdQuery(42),
+    );
   }
 
   @Get(':id')
