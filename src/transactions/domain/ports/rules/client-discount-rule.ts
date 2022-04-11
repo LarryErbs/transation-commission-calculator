@@ -10,7 +10,7 @@ export class ClientDiscoutRule extends Rule {
     super();
   }
 
-  calculate([clientId]): Commission | undefined {
+  calculate(clientId: number): Commission | undefined {
     if (isEqual(clientId, this.defaultClientId)) {
       return {
         amount: this.defaultCommission,

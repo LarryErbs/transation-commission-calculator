@@ -12,10 +12,13 @@ import { FindTransactionsByClientIdQuery } from './application/query/find-transa
 import { FindTransactionsByClientIdHandler } from './application/query/find-transactions-by-client-id.handler';
 import { TransactionMap } from './domain/transaction.mapper';
 import { CalculateCommissionDto } from './interface/dto/calculate-commission.dto';
-import { CalculateCommissionEvent } from './application/event/calculate-commission.event';
-import { CalculateCommissionHandler } from './application/event/calculate-commission.handler';
+import { CalculateCommissionEvent } from './domain/event/calculate-commission/calculate-commission.event';
 import { FindClientsMonthlyTransactionsHandler } from './application/query/find-clients.monthly-transactions.handler';
 import { FindClientsMonthlyTransactionsQuery } from './application/query/find-clients-monthly-transactions.query';
+import { CalculateCommissionHandler } from './domain/event/calculate-commission/calculate-commission.handler';
+import { ConvertCurrencyEvent } from './domain/event/convert-currency/convert-currency.event';
+import { ConvertCurrencyHandler } from './domain/event/convert-currency/convert-currency.handler';
+import { HttpModule } from '@nestjs/axios';
 
 export const CommandHandlers = [CreateTransactionHandler];
 export const QueryHandlers = [
@@ -25,7 +28,11 @@ export const QueryHandlers = [
 export const EventsHandlers = [CalculateCommissionEvent];
 
 @Module({
-  imports: [CqrsModule, TypeOrmModule.forFeature([TransactionRepository])],
+  imports: [
+    HttpModule,
+    CqrsModule,
+    TypeOrmModule.forFeature([TransactionRepository]),
+  ],
   controllers: [TransactionsController],
   providers: [
     TransactionsService,
@@ -42,6 +49,8 @@ export const EventsHandlers = [CalculateCommissionEvent];
     CalculateCommissionDto,
     CalculateCommissionEvent,
     CalculateCommissionHandler,
+    ConvertCurrencyEvent,
+    ConvertCurrencyHandler,
     TransactionFactory,
     TransactionMap,
     TransactionRepository,

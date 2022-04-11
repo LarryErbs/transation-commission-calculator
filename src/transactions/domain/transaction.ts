@@ -1,5 +1,6 @@
 import { DomainEntity } from 'src/common/domain-entity.base';
-import { CalculateCommissionEvent } from '../application/event/calculate-commission.event';
+import { CalculateCommissionEvent } from './event/calculate-commission/calculate-commission.event';
+import { ConvertCurrencyEvent } from './event/convert-currency/convert-currency.event';
 
 export interface TransactionProps {
   id?: number;
@@ -24,14 +25,20 @@ export class Transaction extends DomainEntity<TransactionProps> {
     return Object.freeze({ ...this });
   }
 
-  public calculateCommission(
-    date: string,
-    amount: string,
-    currency: string,
-    clientId: number,
-  ): any {
+  public calculateCommission(): void {
     this.apply(
-      new CalculateCommissionEvent(date, Number(amount), currency, clientId),
+      new CalculateCommissionEvent(
+        this.date,
+        Number(this.amount),
+        this.currency,
+        this.clientId,
+      ),
+    );
+  }
+
+  public convertCurrency(baseCurrency: string): any {
+    this.apply(
+      new ConvertCurrencyEvent(this.amount, this.currency, baseCurrency),
     );
   }
 }

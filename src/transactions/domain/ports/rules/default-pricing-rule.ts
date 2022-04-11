@@ -10,7 +10,7 @@ export class DefaultPricingRule extends Rule {
     this.procent /= 100;
   }
 
-  calculate([amount]): Commission {
+  calculate(amount: number): Commission {
     let commission = amount * this.procent;
     if (commission < this.defaultCommission) {
       commission = this.defaultCommission;

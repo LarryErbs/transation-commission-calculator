@@ -17,7 +17,7 @@ export class CreateTransactionHandler
     const transaction = this.eventPublisher.mergeObjectContext(
       await this.transactionFactory.create(date, amount, currency, client_id),
     );
-    transaction.calculateCommission(date, amount, currency, client_id);
+    transaction.calculateCommission();
     transaction.commit();
   }
 }

@@ -9,6 +9,8 @@ import { RulesStrategy } from 'src/transactions/domain/ports/rules-strategy';
 import { ClientDiscoutRule } from 'src/transactions/domain/ports/rules/client-discount-rule';
 import { DefaultPricingRule } from 'src/transactions/domain/ports/rules/default-pricing-rule';
 import { HightTurnoverRule } from 'src/transactions/domain/ports/rules/high-turnover-rule';
+import { Currencies } from '../../ports/rules/currencies';
+import { Transaction } from '../../transaction';
 import { CalculateCommissionEvent } from './calculate-commission.event';
 
 @EventsHandler(CalculateCommissionEvent)
@@ -18,6 +20,19 @@ export class CalculateCommissionHandler
   constructor(private publisher: EventPublisher, private queryBus: QueryBus) {}
 
   async handle({ amount, clientId, currency, date }: CalculateCommissionEvent) {
+    const transaction = this.publisher.mergeObjectContext(
+      new Transaction({
+        amount: amount,
+        clientId: clientId,
+        currency: currency,
+        date: date,
+      }),
+    );
+    const convertedAmount = transaction.convertCurrency(Currencies.EUR);
+    transaction.commit();
+    console.log('convertedAmount');
+    console.log(convertedAmount);
+
     const defaultPricingRule = await new RulesStrategy(
       new DefaultPricingRule(0.05, 0.5),
     ).calculate(amount);
@@ -27,7 +42,7 @@ export class CalculateCommissionHandler
     ).calculate(clientId);
 
     const highTurnoverRule = await new RulesStrategy(
-      new HightTurnoverRule(this.queryBus, 1000, 0.03),
+      new HightTurnoverRule(this.queryBus, this.publisher, 1000, 0.03),
     ).calculate(clientId, date);
 
     const commissions = [

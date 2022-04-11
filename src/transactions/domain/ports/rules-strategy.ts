@@ -6,14 +6,10 @@ export interface IRulesStrategy {
 }
 
 export class RulesStrategy implements IRulesStrategy {
-  private rule: Rule;
-
-  constructor(rule: Rule) {
-    this.rule = rule;
-  }
+  constructor(private rule: Rule) {}
 
   async calculate(...args: any): Promise<Commission> {
-    const res = await this.rule.calculate(args);
+    const res = await this.rule.calculate(...args);
     console.log(res);
     return res;
   }
