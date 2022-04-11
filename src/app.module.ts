@@ -2,7 +2,7 @@ import * as Joi from '@hapi/joi';
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { DatabaseModule } from './database/database.module';
-import { TransactionsModule } from './transactions/transactions.module';
+import { TransactionsModule } from './domain/transaction/transactions.module';
 
 @Module({
   imports: [
