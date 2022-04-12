@@ -1,73 +1,87 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo_text.svg" width="320" alt="Nest Logo" /></a>
-</p>
-
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
-
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
-
-## Description
-
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
-
 ## Installation
+```
+npm install
+```
+## Docker
+There is a `docker-compose.yaml` file for starting Docker.
 
-```bash
-$ npm install
+```
+docker-compose up
 ```
 
-## Running the app
+After running the application, you can stop the Docker container with
 
-```bash
-# development
-$ npm run start
+```
+docker-compose down
+```
+## Run the application
 
-# watch mode
-$ npm run start:dev
-
-# production mode
-$ npm run start:prod
+```
+npm run start
 ```
 
-## Test
+# Application
+Create a RESTful API with an endpoint for transaction commission calculation. The API must use JSON format for requests and responses.
 
-```bash
-# unit tests
-$ npm run test
+**Request (Transaction) examples**
 
-# e2e tests
-$ npm run test:e2e
+*1st example*
 
-# test coverage
-$ npm run test:cov
+```
+{
+  "date": "2021-01-01",
+  "amount": "100.00",
+  "currency": "EUR",
+  "client_id": 42
+}
 ```
 
-## Support
+*2nd example*
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+```
+{
+  "date": "2021-01-01",
+  "amount": "200.40",
+  "currency": "USD",
+  "client_id": 42
+}
+```
 
-## Stay in touch
+**Response (Commission) example**
 
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+```
+{
+  "amount": "0.05",
+  "currency": "EUR"
+}
+```
 
-## License
+Commission response must **always** be in Euros. Please use a currency rates API ([https://api.exchangerate.host/2021-01-01](https://api.exchangerate.host/2021-01-01)) for transactions in currency other than Euros. 
 
-Nest is [MIT licensed](LICENSE).
+### Commission calculation rules
+
+The **lowest** commission shall be used if there are **multiple** rules matching.
+
+**Rule #1: Default pricing**
+
+By default the price for every transaction is `0.5%` but not less than `0.05€`.
+
+**Rule #2: Client with a discount**
+
+Transaction price for the client with ID of `42` is  `0.05€` (*unless other rules set lower commission*).
+
+**Rule #3: High turnover discount**
+
+Client after reaching transaction turnover of `1000.00€` (per month) gets a discount and transaction commission is `0.03€` for the following transactions.
+
+See below an example in CSV format of rules applied to various transactions.
+
+```jsx
+client_id,date,amount,currency,commission_amount,commission_currency
+42,2021-01-02,2000.00,EUR,0.05,EUR
+1,2021-01-03,500.00,EUR,2.50,EUR
+1,2021-01-04,499.00,EUR,2.50,EUR
+1,2021-01-05,100.00,EUR,0.50,EUR
+1,2021-01-06,1.00,EUR,0.03,EUR
+1,2021-02-01,500.00,EUR,2.50,EUR
+```
