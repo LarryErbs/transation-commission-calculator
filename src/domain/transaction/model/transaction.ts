@@ -1,5 +1,3 @@
-import { AggregateRoot } from '@nestjs/cqrs';
-
 export interface TransactionProps {
   id?: number;
   date: string;
@@ -8,7 +6,7 @@ export interface TransactionProps {
   clientId: number;
 }
 
-export class Transaction extends AggregateRoot {
+export class Transaction {
   private _id: number;
   private _amount: number;
   private _date: string;
@@ -16,7 +14,6 @@ export class Transaction extends AggregateRoot {
   private _clientId: number;
 
   constructor(props: TransactionProps) {
-    super();
     Object.assign(this, props);
   }
 
