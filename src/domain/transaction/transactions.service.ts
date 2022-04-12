@@ -1,29 +1,18 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { firstValueFrom } from 'rxjs';
-import { CreateTransactionDto } from '../../interface/transaction/dto/create-transaction.dto';
 import { Commission } from './model/commission';
 import { ClientDiscoutRule } from './rules/client-discount-rule';
 import { DefaultPricingRule } from './rules/default-pricing-rule';
 import { HightTurnoverRule } from './rules/high-turnover-rule';
 import { RulesStrategy } from './rules/rules-strategy';
-import { TransactionFactory } from './transaction.factory';
 import { isEqual } from 'lodash';
-import { CalculateCommissionDto } from 'src/interface/transaction/dto/calculate-commission.dto';
 import { Transaction } from './model/transaction';
 import { ExchangeRateService } from 'src/infrastructure/utils/services/exchange-rate.service';
-import { QueryBus } from '@nestjs/cqrs';
+import { CalculateCommissionDto } from 'src/interface/transaction/dto/calculate-commission.dto';
 
 @Injectable()
 export class TransactionsService {
-  constructor(
-    private readonly transactionFactory: TransactionFactory,
-    private readonly exchangeRateService: ExchangeRateService,
-    private readonly queryBus: QueryBus,
-  ) {}
-
-  create({ date, amount, client_id, currency }: CreateTransactionDto) {
-    this.transactionFactory.create(date, amount, currency, client_id);
-  }
+  constructor(private readonly exchangeRateService: ExchangeRateService) {}
 
   async calculateCommission(
     { date, amount, client_id, currency }: CalculateCommissionDto,
@@ -82,8 +71,8 @@ export class TransactionsService {
     ).calculate(transaction.clientId);
 
     const highTurnoverRule = await new RulesStrategy(
-      new HightTurnoverRule(1000, 0.03, this.queryBus),
-    ).calculate(transaction.clientId, transaction.date);
+      new HightTurnoverRule(1000, 0.03),
+    ).calculate(transaction.amount);
 
     return [defaultPricingRule, clientDiscoutRule, highTurnoverRule];
   }

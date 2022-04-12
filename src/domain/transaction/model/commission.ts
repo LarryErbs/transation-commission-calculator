@@ -10,4 +10,8 @@ export class Commission {
   constructor(props: CommissionProps) {
     Object.assign(this, props);
   }
+
+  public getPropsCopy(): CommissionProps {
+    return Object.freeze({ ...this });
+  }
 }
