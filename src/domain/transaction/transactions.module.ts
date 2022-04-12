@@ -6,10 +6,6 @@ import { CreateTransactionHandler } from './command/create-transaction.handler';
 import { TransactionRepository } from '../../persistance/transaction/transaction.repository';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { CalculateCommissionDto } from '../../interface/transaction/dto/calculate-commission.dto';
-import { CalculateCommissionEvent } from './event/calculate-commission/calculate-commission.event';
-import { CalculateCommissionHandler } from './event/calculate-commission/calculate-commission.handler';
-import { ConvertCurrencyEvent } from './event/convert-currency/convert-currency.event';
-import { ConvertCurrencyHandler } from './event/convert-currency/convert-currency.handler';
 import { HttpModule } from '@nestjs/axios';
 import { TransactionFactory } from './transaction.factory';
 import { TransactionMap } from '../../utils/mappers/transaction/transaction.mapper';
@@ -19,23 +15,26 @@ import { FindClientsMonthlyTransactionsQuery } from './query/find-clients-monthl
 import { FindClientsMonthlyTransactionsHandler } from './query/find-clients.monthly-transactions.handler';
 import { FindTransactionsByClientIdHandler } from './query/find-transactions-by-client-id.handler';
 import { FindTransactionsByClientIdQuery } from './query/find-transactions-by-client-id.query';
+import { ConfigModule } from '@nestjs/config';
+import { ExchangeRateService } from 'src/utils/services/exchange-rate.service';
 
 export const CommandHandlers = [CreateTransactionHandler];
 export const QueryHandlers = [
   FindClientsMonthlyTransactionsHandler,
   FindTransactionsByClientIdHandler,
 ];
-export const EventsHandlers = [CalculateCommissionEvent];
 
 @Module({
   imports: [
     HttpModule,
     CqrsModule,
+    ConfigModule,
     TypeOrmModule.forFeature([TransactionRepository]),
   ],
   controllers: [TransactionsController],
   providers: [
     TransactionsService,
+    ExchangeRateService,
     CreateTransactionDto,
     CreateTransactionCommand,
     // ...CommandHandlers,
@@ -47,10 +46,6 @@ export const EventsHandlers = [CalculateCommissionEvent];
     FindClientsMonthlyTransactionsHandler,
     FindClientsMonthlyTransactionsQuery,
     CalculateCommissionDto,
-    CalculateCommissionEvent,
-    CalculateCommissionHandler,
-    ConvertCurrencyEvent,
-    ConvertCurrencyHandler,
     TransactionFactory,
     TransactionMap,
     TransactionRepository,

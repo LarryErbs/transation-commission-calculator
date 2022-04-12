@@ -1,7 +1,3 @@
-import { AggregateRoot } from '@nestjs/cqrs';
-
-export type OrmEntityProps<OrmEntity> = Omit<OrmEntity, 'id'>;
-
 export abstract class OrmMapper<Entity, OrmEntity> {
   constructor(
     private domainEntityConstructor: new (props: any) => Entity,
@@ -10,7 +6,7 @@ export abstract class OrmMapper<Entity, OrmEntity> {
 
   protected abstract toDomainProps(ormEntity: OrmEntity): any;
 
-  protected abstract toOrmProps(entity: Entity): OrmEntityProps<OrmEntity>;
+  protected abstract toOrmProps(entity: Entity): OrmEntity;
 
   toDomainEntity = (ormEntity: OrmEntity): Entity => {
     const props = this.toDomainProps(ormEntity);

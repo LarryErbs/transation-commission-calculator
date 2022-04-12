@@ -9,8 +9,6 @@ export class RulesStrategy implements IRulesStrategy {
   constructor(private rule: Rule) {}
 
   async calculate(...args: any): Promise<Commission> {
-    const res = await this.rule.calculate(...args);
-    console.log(res);
-    return res;
+    return this.rule.calculate(...args);
   }
 }

@@ -7,7 +7,8 @@ import { Transaction } from 'src/domain/transaction/model/transaction';
 export class HightTurnoverRule extends Rule {
   constructor(
     private limitAmount: number,
-    private readonly defaultCommission: number,
+    private defaultCommission: number,
+    private queryBus: QueryBus,
   ) {
     super();
   }
@@ -16,19 +17,16 @@ export class HightTurnoverRule extends Rule {
     clientId: number,
     date: string,
   ): Promise<Commission | undefined> {
-    return undefined;
-    // const monthlyTransactions = await this.queryBus.execute<any, any>(
-    //   new FindClientsMonthlyTransactionsQuery(clientId, date),
-    // );
-    // console.log('monthlyTransactions');
-    // console.log(monthlyTransactions);
-    // const totalAmount = this.countTotalAmount(monthlyTransactions);
-    // if (totalAmount >= this.limitAmount) {
-    //   return new Commission({
-    //     amount: this.defaultCommission,
-    //     currency: this.currency,
-    //   });
-    // }
+    const monthlyTransactions = await this.queryBus.execute<any, any>(
+      new FindClientsMonthlyTransactionsQuery(clientId, date),
+    );
+    const totalAmount = this.countTotalAmount(monthlyTransactions);
+    if (totalAmount >= this.limitAmount) {
+      return new Commission({
+        amount: this.defaultCommission,
+        currency: this.currency,
+      });
+    }
   }
 
   private countTotalAmount(monthlyTransactions: Transaction[]): number {

@@ -1,20 +1,10 @@
-import {
-  Controller,
-  Get,
-  Post,
-  Body,
-  Patch,
-  Param,
-  Delete,
-} from '@nestjs/common';
+import { Controller, Get, Post, Body } from '@nestjs/common';
 import { CreateTransactionDto } from './dto/create-transaction.dto';
-import { UpdateTransactionDto } from './dto/update-transaction.dto';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
-import { CreateTransactionCommand } from 'src/domain/transaction/command/create-transaction.command';
 import { TransactionsService } from 'src/domain/transaction/transactions.service';
 import { CalculateCommissionDto } from './dto/calculate-commission.dto';
 import { FindTransactionsByClientIdQuery } from 'src/domain/transaction/query/find-transactions-by-client-id.query';
-import { Transaction } from 'src/domain/transaction/model/transaction';
+import { Currencies } from 'src/utils/currencies';
 
 @Controller('transactions')
 export class TransactionsController {
@@ -31,7 +21,10 @@ export class TransactionsController {
 
   @Post('calculate')
   calculate(@Body() calculateCommissionDto: CalculateCommissionDto) {
-    return this.transactionsService.calculateCommission(calculateCommissionDto);
+    return this.transactionsService.calculateCommission(
+      calculateCommissionDto,
+      Currencies.EUR,
+    );
   }
 
   @Get()
@@ -39,23 +32,5 @@ export class TransactionsController {
     return this.queryBus.execute<any, any>(
       new FindTransactionsByClientIdQuery(42),
     );
-  }
-
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.transactionsService.findOne(+id);
-  }
-
-  @Patch(':id')
-  update(
-    @Param('id') id: string,
-    @Body() updateTransactionDto: UpdateTransactionDto,
-  ) {
-    return this.transactionsService.update(+id, updateTransactionDto);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.transactionsService.remove(+id);
   }
 }

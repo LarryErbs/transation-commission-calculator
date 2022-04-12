@@ -1,40 +1,64 @@
-import { BadRequestException } from '@nestjs/common';
-import { isEqual } from 'lodash';
-import { Currencies } from '../rules/currencies';
-import { RulesStrategy } from '../rules/rules-strategy';
-import { date } from '@hapi/joi';
-import { firstValueFrom } from 'rxjs';
-import { ClientDiscoutRule } from '../rules/client-discount-rule';
-import { DefaultPricingRule } from '../rules/default-pricing-rule';
-import { HightTurnoverRule } from '../rules/high-turnover-rule';
-import { Commission } from './commission';
+import { AggregateRoot } from '@nestjs/cqrs';
 
-export interface TransactionProps extends CommissionProps {
+export interface TransactionProps {
   id?: number;
   date: string;
-  clientId: number;
-  commission?: CommissionProps;
-}
-
-export interface CommissionProps {
   amount: number;
   currency: string;
+  clientId: number;
 }
 
-export class Transaction {
-  public readonly id: number;
-  public readonly date: string;
-  public readonly amount: number;
-  public readonly currency: string;
-  public readonly clientId: number;
-  // public readonly commission?: CommissionProps;
+export class Transaction extends AggregateRoot {
+  private _id: number;
+  private _amount: number;
+  private _date: string;
+  private _currency: string;
+  private _clientId: number;
 
   constructor(props: TransactionProps) {
+    super();
     Object.assign(this, props);
-    // super(props);
   }
 
   public getPropsCopy(): TransactionProps {
-    return Object.freeze({ ...this });
+    return Object.freeze({
+      amount: this.amount,
+      date: this.date,
+      clientId: this.clientId,
+      currency: this.currency,
+    } as TransactionProps);
+  }
+
+  public get id(): number {
+    return this._id;
+  }
+
+  public set id(value: number) {
+    this._id = value;
+  }
+
+  public get date(): string {
+    return this._date;
+  }
+  public set date(value: string) {
+    this._date = value;
+  }
+  public get amount(): number {
+    return this._amount;
+  }
+  public set amount(value: number) {
+    this._amount = value;
+  }
+  public get currency(): string {
+    return this._currency;
+  }
+  public set currency(value: string) {
+    this._currency = value;
+  }
+  public get clientId(): number {
+    return this._clientId;
+  }
+  public set clientId(value: number) {
+    this._clientId = value;
   }
 }

@@ -49,8 +49,6 @@ export class TransactionRepository
   ): Promise<Transaction[]> {
     const after = moment(date).startOf('month').format('YYYY-MM-DD');
     const before = moment(date).endOf('month').format('YYYY-MM-DD');
-    console.log(after);
-    console.log(before);
     return (
       await getRepository(TransactionEntity).find({
         where: {
