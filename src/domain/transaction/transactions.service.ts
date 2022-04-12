@@ -10,7 +10,7 @@ import { TransactionFactory } from './transaction.factory';
 import { isEqual } from 'lodash';
 import { CalculateCommissionDto } from 'src/interface/transaction/dto/calculate-commission.dto';
 import { Transaction } from './model/transaction';
-import { ExchangeRateService } from 'src/utils/services/exchange-rate.service';
+import { ExchangeRateService } from 'src/infrastructure/utils/services/exchange-rate.service';
 import { QueryBus } from '@nestjs/cqrs';
 
 @Injectable()

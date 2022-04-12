@@ -1,5 +1,5 @@
 import { IQueryHandler, QueryHandler } from '@nestjs/cqrs';
-import { TransactionRepository } from 'src/persistance/transaction/transaction.repository';
+import { TransactionRepository } from 'src/infrastructure/transaction/transaction.repository';
 import { FindClientsMonthlyTransactionsQuery } from './find-clients-monthly-transactions.query';
 
 @QueryHandler(FindClientsMonthlyTransactionsQuery)

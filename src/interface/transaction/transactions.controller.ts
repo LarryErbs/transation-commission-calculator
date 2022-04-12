@@ -1,10 +1,10 @@
-import { Controller, Get, Post, Body } from '@nestjs/common';
+import { Controller, Post, Body } from '@nestjs/common';
 import { CreateTransactionDto } from './dto/create-transaction.dto';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
 import { TransactionsService } from 'src/domain/transaction/transactions.service';
 import { CalculateCommissionDto } from './dto/calculate-commission.dto';
-import { FindTransactionsByClientIdQuery } from 'src/domain/transaction/query/find-transactions-by-client-id.query';
-import { Currencies } from 'src/utils/currencies';
+import { Currencies } from 'src/infrastructure/utils/currencies';
+import { CreateTransactionCommand } from 'src/domain/transaction/command/create-transaction.command';
 
 @Controller('transactions')
 export class TransactionsController {
@@ -16,7 +16,7 @@ export class TransactionsController {
 
   @Post()
   create(@Body() createTransactionDto: CreateTransactionDto) {
-    this.transactionsService.create(createTransactionDto);
+    this.commandBus.execute(new CreateTransactionCommand(createTransactionDto));
   }
 
   @Post('calculate')
@@ -24,13 +24,6 @@ export class TransactionsController {
     return this.transactionsService.calculateCommission(
       calculateCommissionDto,
       Currencies.EUR,
-    );
-  }
-
-  @Get()
-  findAll() {
-    return this.queryBus.execute<any, any>(
-      new FindTransactionsByClientIdQuery(42),
     );
   }
 }

@@ -1,5 +1,5 @@
 import { Commission } from '../model/commission';
-import { Currencies } from '../../../utils/currencies';
+import { Currencies } from '../../../infrastructure/utils/currencies';
 
 export abstract class Rule {
   protected currency = Currencies.EUR;

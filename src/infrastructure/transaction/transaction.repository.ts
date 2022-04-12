@@ -7,7 +7,7 @@ import {
 } from 'typeorm';
 import { TransactionEntity } from './transaction.entity';
 import * as moment from 'moment';
-import { TransactionMap } from 'src/utils/mappers/transaction/transaction.mapper';
+import { TransactionMap } from 'src/infrastructure/transaction/transaction.mapper';
 import { Transaction } from 'src/domain/transaction/model/transaction';
 export interface ITransactionRepository {
   findByClientId(id: number): Promise<Transaction[]>;

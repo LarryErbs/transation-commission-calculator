@@ -3,8 +3,8 @@ import {
   Transaction,
   TransactionProps,
 } from 'src/domain/transaction/model/transaction';
-import { TransactionEntity } from 'src/persistance/transaction/transaction.entity';
-import { OrmMapper } from 'src/utils/mappers/mapper.base';
+import { TransactionEntity } from 'src/infrastructure/transaction/transaction.entity';
+import { OrmMapper } from 'src/infrastructure/utils/mapper.base';
 
 @Injectable()
 export class TransactionMap extends OrmMapper<Transaction, TransactionEntity> {
@@ -18,6 +18,7 @@ export class TransactionMap extends OrmMapper<Transaction, TransactionEntity> {
     };
     return props;
   }
+
   protected toOrmProps(entity: Transaction): TransactionEntity {
     const props = entity.getPropsCopy();
     const ormProps: TransactionEntity = {

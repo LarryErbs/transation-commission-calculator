@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
-import { TransactionRepository } from 'src/persistance/transaction/transaction.repository';
-import { EntityFactory } from 'src/utils/entity.factory';
+import { TransactionRepository } from 'src/infrastructure/transaction/transaction.repository';
+import { EntityFactory } from 'src/infrastructure/utils/entity.factory';
 import { Transaction } from './model/transaction';
 
 @Injectable()

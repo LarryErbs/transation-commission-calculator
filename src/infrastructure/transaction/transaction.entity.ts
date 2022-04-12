@@ -1,5 +1,5 @@
-import { TypeormEntityBase } from 'src/database/orm-entity.base';
-import { ColumnNumericTransformer } from 'src/database/transformer';
+import { TypeormEntityBase } from 'src/infrastructure/database/orm-entity.base';
+import { ColumnNumericTransformer } from 'src/infrastructure/database/transformer';
 import { Column, Entity } from 'typeorm';
 
 @Entity()
