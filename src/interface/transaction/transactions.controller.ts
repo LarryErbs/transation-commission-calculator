@@ -1,6 +1,6 @@
 import { Controller, Post, Body, HttpCode } from '@nestjs/common';
-import { TransactionsService } from 'src/domain/transaction/transactions.service';
-import { Currencies } from 'src/infrastructure/utils/currencies';
+import { TransactionsService } from '../../domain/transaction/transactions.service';
+import { Currencies } from '../../infrastructure/utils/currencies';
 import { CalculateCommissionDto } from './dto/calculate-commission.dto';
 
 @Controller('transactions')

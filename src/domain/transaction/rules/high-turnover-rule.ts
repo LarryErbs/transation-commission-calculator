@@ -2,7 +2,7 @@ import { Commission } from '../model/commission';
 import { Rule } from './rule';
 
 export class HightTurnoverRule extends Rule {
-  constructor(private limitAmount: number, private defaultCommission: number) {
+  constructor(private defaultCommission: number, private limitAmount: number) {
     super();
   }
 

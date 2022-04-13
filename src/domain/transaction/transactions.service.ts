@@ -7,8 +7,8 @@ import { HightTurnoverRule } from './rules/high-turnover-rule';
 import { RulesStrategy } from './rules/rules-strategy';
 import { isEqual } from 'lodash';
 import { Transaction } from './model/transaction';
-import { ExchangeRateService } from 'src/infrastructure/utils/services/exchange-rate.service';
-import { CalculateCommissionDto } from 'src/interface/transaction/dto/calculate-commission.dto';
+import { ExchangeRateService } from '../../infrastructure/utils/services/exchange-rate.service';
+import { CalculateCommissionDto } from '../../interface/transaction/dto/calculate-commission.dto';
 
 @Injectable()
 export class TransactionsService {
@@ -48,7 +48,7 @@ export class TransactionsService {
     const response = await firstValueFrom(
       this.exchangeRateService.getCurrencies(),
     );
-    const rate = response.data.rates[currency];
+    const rate = response.data?.rates[currency];
 
     if (!rate) {
       throw new BadRequestException('Unkown currency');
@@ -63,7 +63,7 @@ export class TransactionsService {
 
   private async setRules(transaction: Transaction): Promise<Commission[]> {
     const defaultPricingRule = await new RulesStrategy(
-      new DefaultPricingRule(0.05, 0.5),
+      new DefaultPricingRule(0, 0.05, 0.5),
     ).calculate(transaction.amount);
 
     const clientDiscoutRule = await new RulesStrategy(
@@ -71,7 +71,7 @@ export class TransactionsService {
     ).calculate(transaction.clientId);
 
     const highTurnoverRule = await new RulesStrategy(
-      new HightTurnoverRule(1000, 0.03),
+      new HightTurnoverRule(0.03, 1000),
     ).calculate(transaction.amount);
 
     return [defaultPricingRule, clientDiscoutRule, highTurnoverRule];

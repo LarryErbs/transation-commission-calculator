@@ -4,6 +4,7 @@ import { Rule } from './rule';
 export class DefaultPricingRule extends Rule {
   constructor(
     private readonly defaultCommission: number,
+    private readonly limitAmount: number,
     private procent: number,
   ) {
     super();
@@ -12,7 +13,7 @@ export class DefaultPricingRule extends Rule {
 
   calculate(amount: number): Commission {
     let commission = amount * this.procent;
-    if (commission < this.defaultCommission) {
+    if (commission < this.limitAmount) {
       commission = this.defaultCommission;
     }
 

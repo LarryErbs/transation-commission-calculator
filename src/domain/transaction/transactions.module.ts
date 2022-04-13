@@ -5,10 +5,10 @@ import { HttpModule } from '@nestjs/axios';
 
 import { TransactionsService } from './transactions.service';
 
-import { ExchangeRateService } from 'src/infrastructure/utils/services/exchange-rate.service';
+import { ExchangeRateService } from '../../infrastructure/utils/services/exchange-rate.service';
 
-import { TransactionsController } from 'src/interface/transaction/transactions.controller';
-import { CalculateCommissionDto } from 'src/interface/transaction/dto/calculate-commission.dto';
+import { TransactionsController } from '../../interface/transaction/transactions.controller';
+import { CalculateCommissionDto } from '../../interface/transaction/dto/calculate-commission.dto';
 
 @Module({
   imports: [HttpModule, CqrsModule, ConfigModule],
