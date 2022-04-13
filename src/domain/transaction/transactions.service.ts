@@ -29,7 +29,7 @@ export class TransactionsService implements ITransactionService {
     const transaction = new Transaction({
       date: date,
       amount: parseFloat(amount),
-      clientId: client_id,
+      clientId: Number(client_id),
       currency: currency,
     });
 
@@ -93,6 +93,6 @@ export class TransactionsService implements ITransactionService {
   }
 
   private convert(amount: number, rate: number): number {
-    return amount / rate;
+    return amount * rate;
   }
 }

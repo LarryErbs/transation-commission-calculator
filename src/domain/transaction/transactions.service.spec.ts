@@ -22,7 +22,7 @@ describe('calculate commission', () => {
       date: '2021-01-02',
       amount: '2000',
       currency: 'EUR',
-      client_id: 1,
+      client_id: '1',
     };
     const result = await transactionService.calculateCommission(request, 'EUR');
 
@@ -37,7 +37,7 @@ describe('calculate commission', () => {
       date: '2021-01-02',
       amount: '100',
       currency: 'USD',
-      client_id: 42,
+      client_id: '42',
     };
     const result = await transactionService.calculateCommission(request, 'EUR');
 
@@ -52,7 +52,7 @@ describe('calculate commission', () => {
       date: '2021-01-02',
       amount: '100',
       currency: 'EUR',
-      client_id: 1,
+      client_id: '1',
     };
     const result = await transactionService.calculateCommission(request, 'EUR');
 

@@ -10,6 +10,6 @@ export class CalculateCommissionRequestDto
   @ApiProperty({ example: '2022-02-02' })
   date: string;
 
-  @ApiProperty({ example: '42' })
-  client_id: number;
+  @ApiProperty({ example: '12' })
+  client_id: string;
 }

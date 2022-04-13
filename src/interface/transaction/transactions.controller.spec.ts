@@ -35,7 +35,7 @@ describe('transactions controller', () => {
       date: '2021-01-01',
       amount: '100.00',
       currency: 'EUR',
-      client_id: 42,
+      client_id: '42',
     });
 
     expect(typeof result).toBe('object');
