@@ -74,7 +74,7 @@ export class TransactionsService {
 
   private async setRules(transaction: Transaction): Promise<Commission[]> {
     const defaultPricingRule = await new RulesStrategy(
-      new DefaultPricingRule(0.05, 0.5),
+      new DefaultPricingRule(0, 0.05, 0.5),
     ).calculate(transaction.amount);
 
     const clientDiscoutRule = await new RulesStrategy(
@@ -82,7 +82,7 @@ export class TransactionsService {
     ).calculate(transaction.clientId);
 
     const highTurnoverRule = await new RulesStrategy(
-      new HightTurnoverRule(1000, 0.03, this.queryBus),
+      new HightTurnoverRule(0.03, 1000, this.queryBus),
     ).calculate(transaction.clientId, transaction.date);
 
     return [defaultPricingRule, clientDiscoutRule, highTurnoverRule];

@@ -11,11 +11,13 @@ export class ClientDiscoutRule extends Rule {
   }
 
   calculate(clientId: number): Commission | undefined {
-    if (isEqual(clientId, this.defaultClientId)) {
-      return new Commission({
-        amount: this.defaultCommission,
-        currency: this.currency,
-      });
+    if (!isEqual(clientId, this.defaultClientId)) {
+      return undefined;
     }
+
+    return new Commission({
+      amount: this.defaultCommission,
+      currency: this.currency,
+    });
   }
 }
