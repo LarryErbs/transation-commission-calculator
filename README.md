@@ -2,23 +2,23 @@
 ```
 npm install
 ```
-## Docker
-There is a `docker-compose.yaml` file for starting Docker.
-
-```
-docker-compose up
-```
-
-After running the application, you can stop the Docker container with
-
-```
-docker-compose down
-```
 ## Run the application
 
 ```
 npm run start
 ```
+
+# FYI
+With the request 
+```
+{
+  "date": "2021-01-04",
+  "amount": "0.1",
+  "currency": "EUR",
+  "client_id": 3
+}
+```
+It can be a situation where **no rules are matching**, so I've assumed that when the transaction price with `0.5%` is less than `0.05€` - I set `0€` for such a transaction. I've decided on such an action due to the rule name.
 
 # Application
 Create a RESTful API with an endpoint for transaction commission calculation. The API must use JSON format for requests and responses.
