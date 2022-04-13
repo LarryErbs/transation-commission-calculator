@@ -1,9 +1,9 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { ExchangeRateService } from '../../infrastructure/utils/services/exchange-rate.service';
 import { TransactionsService } from './transactions.service';
-import { CalculateCommissionDto } from 'src/interface/transaction/dto/calculate-commission.dto';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { HttpModule } from '@nestjs/axios';
+import { CalculateCommissionRequestDto } from './dto/calculate-commission-request.dto copy';
 
 describe('calculate commission', () => {
   let transactionService: TransactionsService;
@@ -18,7 +18,7 @@ describe('calculate commission', () => {
   });
 
   it('should set discount #3', async () => {
-    const request: CalculateCommissionDto = {
+    const request: CalculateCommissionRequestDto = {
       date: '2021-01-02',
       amount: '2000',
       currency: 'EUR',
@@ -33,7 +33,7 @@ describe('calculate commission', () => {
   });
 
   it('should set discount #2', async () => {
-    const request: CalculateCommissionDto = {
+    const request: CalculateCommissionRequestDto = {
       date: '2021-01-02',
       amount: '100',
       currency: 'USD',
@@ -48,7 +48,7 @@ describe('calculate commission', () => {
   });
 
   it('should set discount #1', async () => {
-    const request: CalculateCommissionDto = {
+    const request: CalculateCommissionRequestDto = {
       date: '2021-01-02',
       amount: '100',
       currency: 'EUR',

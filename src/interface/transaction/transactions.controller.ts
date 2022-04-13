@@ -1,7 +1,8 @@
 import { Controller, Post, Body, HttpCode } from '@nestjs/common';
 import { TransactionsService } from '../../domain/transaction/transactions.service';
 import { Currencies } from '../../infrastructure/utils/currencies';
-import { CalculateCommissionDto } from './dto/calculate-commission.dto';
+import { CalculateCommissionRequest } from './dto/calculate-commission-request';
+import { CalculateCommissionResponse } from './dto/calculate-commission-response';
 
 @Controller('transactions')
 export class TransactionsController {
@@ -9,7 +10,9 @@ export class TransactionsController {
 
   @Post('calculate')
   @HttpCode(200)
-  calculate(@Body() calculateCommissionDto: CalculateCommissionDto) {
+  calculate(
+    @Body() calculateCommissionDto: CalculateCommissionRequest,
+  ): Promise<CalculateCommissionResponse> {
     return this.transactionsService.calculateCommission(
       calculateCommissionDto,
       Currencies.EUR,

@@ -8,16 +8,24 @@ import { RulesStrategy } from './rules/rules-strategy';
 import { isEqual } from 'lodash';
 import { Transaction } from './model/transaction';
 import { ExchangeRateService } from '../../infrastructure/utils/services/exchange-rate.service';
-import { CalculateCommissionDto } from '../../interface/transaction/dto/calculate-commission.dto';
+import { CalculateCommissionResponseDto } from './dto/calculate-commission-response.dto';
+import { CalculateCommissionRequestDto } from './dto/calculate-commission-request.dto copy';
+
+interface ITransactionService {
+  calculateCommission(
+    calculateCommissionDto: CalculateCommissionRequestDto,
+    baseCurrency: string,
+  ): Promise<CalculateCommissionResponseDto>;
+}
 
 @Injectable()
-export class TransactionsService {
+export class TransactionsService implements ITransactionService {
   constructor(private readonly exchangeRateService: ExchangeRateService) {}
 
   async calculateCommission(
-    { date, amount, client_id, currency }: CalculateCommissionDto,
+    { date, amount, client_id, currency }: CalculateCommissionRequestDto,
     baseCurrency: string,
-  ): Promise<any> {
+  ): Promise<CalculateCommissionResponseDto> {
     const transaction = new Transaction({
       date: date,
       amount: parseFloat(amount),
