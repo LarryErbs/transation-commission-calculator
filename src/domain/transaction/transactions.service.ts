@@ -9,7 +9,7 @@ import { isEqual } from 'lodash';
 import { Transaction } from './model/transaction';
 import { ExchangeRateService } from '../../infrastructure/utils/services/exchange-rate.service';
 import { CalculateCommissionResponseDto } from './dto/calculate-commission-response.dto';
-import { CalculateCommissionRequestDto } from './dto/calculate-commission-request.dto copy';
+import { CalculateCommissionRequestDto } from './dto/calculate-commission-request.dto';
 
 interface ITransactionService {
   calculateCommission(

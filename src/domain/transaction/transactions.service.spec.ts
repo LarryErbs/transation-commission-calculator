@@ -3,7 +3,7 @@ import { ExchangeRateService } from '../../infrastructure/utils/services/exchang
 import { TransactionsService } from './transactions.service';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { HttpModule } from '@nestjs/axios';
-import { CalculateCommissionRequestDto } from './dto/calculate-commission-request.dto copy';
+import { CalculateCommissionRequestDto } from './dto/calculate-commission-request.dto';
 
 describe('calculate commission', () => {
   let transactionService: TransactionsService;
